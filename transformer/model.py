@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 """ sinusoid position encoding """
 def get_sinusoid_encoding_table(n_seq, d_hidn):
     def cal_angle(position, i_hidn):
@@ -282,4 +281,3 @@ class MovieClassification(nn.Module):
         save = torch.load(path)
         self.load_state_dict(save["state_dict"])
         return save["epoch"], save["loss"], save["score"]
-

@@ -17,7 +17,6 @@ import model as transformer
 import data
 import optimization as optim
 
-
 """ random seed """
 def set_seed(args):
     random.seed(args.seed)
@@ -94,7 +93,9 @@ def train_model(rank, world_size, args):
     if 1 < args.n_gpu:
         init_process_group(rank, world_size)
     master = (world_size == 0 or rank % world_size == 0)
-    if master: wandb.init(project="transformer-evolution")
+
+    if master:
+        wandb.init(project='transformer-evolution')
 
     vocab = load_vocab(args.vocab)
 
@@ -159,7 +160,9 @@ if __name__ == '__main__':
                         help="vocab file")
     parser.add_argument("--save", default="save_best.pth", type=str, required=False,
                         help="save file")
-    parser.add_argument("--epoch", default=20, type=int, required=False,
+    # parser.add_argument("--epoch", default=20, type=int, required=False,
+    #                     help="epoch")
+    parser.add_argument("--epoch", default=2, type=int, required=False,
                         help="epoch")
     parser.add_argument("--batch", default=512, type=int, required=False,
                         help="batch")
@@ -192,3 +195,5 @@ if __name__ == '__main__':
     else:
         train_model(0 if args.gpu is None else args.gpu, args.n_gpu, args)
 
+        # os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
+        # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
